@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Wrapper, LoginForm, H4, Input, Button, StyledLink } from './Style';
 
 function Login() {
-  const [loginData, setLoginData] = useState({});
-  const [disabled, setDisabled] = useState(true);
+  const [loginData, setLoginData] = useState({ email: '', password: '' });
+  const [isEmail, setIsEmail] = useState(false);
+  const [isPassword, setIsPassword] = useState(false);
 
   function onChangeHandle(e) {
     const { value, name } = e.target;
@@ -11,13 +12,17 @@ function Login() {
       ...loginData,
       [name]: value,
     });
-  }
 
-  function validityCheck() {
-    if (loginData.email.includes('@') && loginData.password.length >= 8) {
-      setDisabled(false);
+    if (loginData?.email?.includes('@')) {
+      setIsEmail(true);
     } else {
-      setDisabled(true);
+      setIsEmail(false);
+    }
+    console.log(loginData?.password?.length);
+    if (loginData?.password?.length > 6) {
+      setIsPassword(true);
+    } else {
+      setIsPassword(false);
     }
   }
 
@@ -46,14 +51,7 @@ function Login() {
             onChange={onChangeHandle}
           />
         </div>
-        <Button
-          type="submit"
-          // disabled={
-          //   loginData.email.includes('@') && loginData.password.length >= 8
-          //     ? false
-          //     : true
-          // }
-        >
+        <Button type="submit" disabled={!(isEmail && isPassword)}>
           로그인
         </Button>
       </LoginForm>
