@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Wrapper, LoginForm, H4, Input, Button, StyledLink } from './Style';
+import Axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const [isEmail, setIsEmail] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
+  const navigate = useNavigate();
 
   function onChangeHandle(e) {
     const { value, name } = e.target;
@@ -18,7 +21,7 @@ function Login() {
     } else {
       setIsEmail(false);
     }
-    console.log(loginData?.password?.length);
+
     if (loginData?.password?.length > 6) {
       setIsPassword(true);
     } else {
@@ -26,18 +29,33 @@ function Login() {
     }
   }
 
-  function handleSubmit() {}
+  async function onSubmitHandle(e) {
+    e.preventDefault();
+
+    await Axios.post(
+      `https://pre-onboarding-selection-task.shop/auth/signin`,
+      { email: loginData.email, password: loginData.password },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    ).then(
+      (res) => localStorage.setItem('token', res.data.access_token),
+      navigate('/todo')
+    );
+  }
 
   return (
     <Wrapper>
-      <LoginForm>
+      <LoginForm onSubmit={onSubmitHandle}>
         <div className="email">
           <H4 className="email">이메일</H4>
           <Input
             type="email"
             name="email"
             placeholder="이메일을 입력해주세요."
-            value={loginData.email || ''}
+            value={loginData?.email}
             onChange={onChangeHandle}
           />
         </div>
@@ -47,7 +65,7 @@ function Login() {
             type="password"
             name="password"
             placeholder="비밀번호를 입력해주세요."
-            value={loginData.password || ''}
+            value={loginData?.password}
             onChange={onChangeHandle}
           />
         </div>
