@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import { Wrapper, LoginForm, H4, Input, Button, StyledLink } from './Style';
 
 function Login() {
   const [loginData, setLoginData] = useState({});
@@ -49,11 +48,11 @@ function Login() {
         </div>
         <Button
           type="submit"
-          disabled={
-            loginData.email.includes('@') && loginData.password.length >= 8
-              ? false
-              : true
-          }
+          // disabled={
+          //   loginData.email.includes('@') && loginData.password.length >= 8
+          //     ? false
+          //     : true
+          // }
         >
           로그인
         </Button>
@@ -62,45 +61,5 @@ function Login() {
     </Wrapper>
   );
 }
-
-const Wrapper = styled.section`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  width: fit-content;
-  margin: 0 auto;
-`;
-
-const LoginForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const H4 = styled.h4`
-  margin-top: 0;
-  margin-bottom: 5px;
-`;
-
-const Input = styled.input`
-  margin-bottom: 10px;
-  width: 200px;
-  height: 25px;
-`;
-
-const Button = styled.button`
-  padding: 10px 25px;
-  margin-bottom: 10px;
-
-  border: none;
-  border-radius: 5px;
-`;
-
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  font-size: small;
-  color: grey;
-`;
 
 export default Login;
