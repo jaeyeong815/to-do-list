@@ -9,7 +9,7 @@ function Todo() {
 
   useEffect(() => {
     getTodo();
-  }, []);
+  }, [todoData]);
 
   async function getTodo() {
     await Axios.get(`https://pre-onboarding-selection-task.shop/todos`, {
@@ -32,9 +32,20 @@ function Todo() {
     ).then((res) => setTodoData([...todoData, res.data], setText('')));
   }
 
+  async function deleteTodo(id) {
+    await Axios.delete(
+      `https://pre-onboarding-selection-task.shop/todos/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  }
+
   function checkedHandle(e) {
     if (e.target.checked) {
-      // todo 투두 업데이트
+      // todo 투두 완료여부 업데이트
     }
   }
 
@@ -56,6 +67,8 @@ function Todo() {
               <li key={todo.id}>
                 <input type="checkbox" onChange={checkedHandle} />
                 {todo.todo}
+                <button>수정</button>
+                <button onClick={() => deleteTodo(todo.id)}>삭제</button>
               </li>
             );
           })}
@@ -65,6 +78,3 @@ function Todo() {
 }
 
 export default Todo;
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjEyM0B0ZXN0LmNvbSIsInN1YiI6MTgwLCJpYXQiOjE2NjUxMTYxODUsImV4cCI6MTY2NTcyMDk4NX0.434PokkOEX7-vVsYr0uM9kVCEzddHD9iug82JGjHQUs
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjEyM0B0ZXN0LmNvbSIsInN1YiI6MTgwLCJpYXQiOjE2NjUxMTYxODUsImV4cCI6MTY2NTcyMDk4NX0.434PokkOEX7-vVsYr0uM9kVCEzddHD9iug82JGjHQUs
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjEyM0B0ZXN0LmNvbSIsInN1YiI6MTgwLCJpYXQiOjE2NjUxMTYxODUsImV4cCI6MTY2NTcyMDk4NX0.434PokkOEX7-vVsY
