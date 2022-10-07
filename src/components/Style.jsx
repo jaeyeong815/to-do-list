@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+//todo 로그인, 회원가입, 투두 화면 가운데로
+
 export const Wrapper = styled.section`
   display: flex;
   flex-direction: column;

@@ -64,7 +64,7 @@ function Todo() {
   }
 
   async function updateHandle(id) {
-    console.log();
+    //fix 수정버튼 클릭 시 모든 할일이 수정모드가 됨
     await Axios.put(
       `https://pre-onboarding-selection-task.shop/todos/${id}`,
       { todo: updateText, isCompleted },
@@ -76,6 +76,9 @@ function Todo() {
       }
     ).then((res) => setIsUpdate(false));
   }
+  //todo 투두 완료여부 디자인 필요
+  //todo ul이 점으로 되어있는데 수정할 수 있으면 하기 (디자인)
+  //todo 수정,삭제,취소 버튼 디자인 필요
 
   return (
     <>

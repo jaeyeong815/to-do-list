@@ -8,8 +8,13 @@ function SignUp() {
   const [isEmail, setIsEmail] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const navigate = useNavigate();
+  //todo 회원가입 제목 필요
+  //fix 비번 먼저 치고 이메일 입력하면 버튼 활성화가 느린것같음
 
   function onChangeHandle(e) {
+    //todo 이메일 형식 안맞을 시 안내 메시지
+    //todo 패스워드 형식 안맞을 시 안내 메시지
+    //todo 형식 맞을 시 안내 메시지
     const { value, name } = e.target;
     setUserData({
       ...userData,
@@ -30,6 +35,7 @@ function SignUp() {
   }
   async function onSubmitHandle(e) {
     e.preventDefault();
+    //todo 회원가입 완료 안내메시지 띄우기
     await Axios.post(
       `https://pre-onboarding-selection-task.shop/auth/signup`,
       {

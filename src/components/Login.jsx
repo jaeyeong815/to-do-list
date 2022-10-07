@@ -9,7 +9,8 @@ function Login() {
   const [isEmail, setIsEmail] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const navigate = useNavigate();
-
+  //todo 로그인 제목 필요
+  //fix 비번 먼저 치고 이메일 입력하면 버튼 활성화가 느린것같음
   useEffect(() => {
     if (isLogin()) {
       navigate('/todo');
