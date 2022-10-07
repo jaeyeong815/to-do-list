@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Input, Button, H4 } from './Style';
+import { Input, Button, H4 } from '../Style';
 import Axios from 'axios';
 
 function Todo() {
