@@ -87,15 +87,14 @@ function Todo() {
               <li key={todo.id}>
                 <input type="checkbox" onChange={checkedCompleted} />
                 <Input
-                  //fix 수정하려는 값이 안들어가있음
-                  value={todo.todo}
+                  value={updateText}
                   onChange={(e) => setUpdateText(e.target.value)}
                 />
                 <button onClick={() => updateHandle(todo.id)}>제출</button>
                 <button
                   onClick={() => {
                     setIsUpdate(false);
-                    setUpdateText('');
+                    setText('');
                     setIsCompleted(todo.isCompleted);
                   }}
                 >
@@ -106,7 +105,14 @@ function Todo() {
               <li key={todo.id}>
                 {isCompleted ? <H4>완료!</H4> : <H4>아직</H4>}
                 {todo.todo}
-                <button onClick={() => setIsUpdate(true)}>수정</button>
+                <button
+                  onClick={() => {
+                    setIsUpdate(true);
+                    setUpdateText(todo.todo);
+                  }}
+                >
+                  수정
+                </button>
                 <button onClick={() => deleteTodo(todo.id)}>삭제</button>
               </li>
             );
