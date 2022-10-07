@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Input, Button, H4 } from './Style';
 import Axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+import { isLogin } from '../util/isLogin';
 
 function Todo() {
   const [todoData, setTodoData] = useState([]);
@@ -9,9 +12,14 @@ function Todo() {
   const [updateText, setUpdateText] = useState(text);
   const [isCompleted, setIsCompleted] = useState(false);
   const token = localStorage.getItem('token');
+  const navigate = useNavigate();
 
   useEffect(() => {
-    getTodo();
+    if (isLogin) {
+      getTodo();
+    } else {
+      navigate('/');
+    }
   }, [todoData]);
 
   function checkedCompleted(e) {

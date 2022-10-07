@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Wrapper, LoginForm, H4, Input, Button, StyledLink } from './Style';
 import Axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { isLogin } from '../util/isLogin';
 
 function Login() {
   const [loginData, setLoginData] = useState({ email: '', password: '' });
@@ -9,7 +10,18 @@ function Login() {
   const [isPassword, setIsPassword] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (isLogin()) {
+      navigate('/todo');
+    } else {
+      navigate('/');
+    }
+  }, [loginData]);
+
   function onChangeHandle(e) {
+    //todo 이메일 형식 안맞을 시 안내 메시지
+    //todo 패스워드 형식 안맞을 시 안내 메시지
+    //todo 형식 맞을 시 안내 메시지
     const { value, name } = e.target;
     setLoginData({
       ...loginData,
@@ -32,6 +44,7 @@ function Login() {
   async function onSubmitHandle(e) {
     e.preventDefault();
 
+    //todo 에러핸들링
     await Axios.post(
       `https://pre-onboarding-selection-task.shop/auth/signin`,
       { email: loginData.email, password: loginData.password },
@@ -40,10 +53,10 @@ function Login() {
           'Content-Type': 'application/json',
         },
       }
-    ).then(
-      (res) => localStorage.setItem('token', res.data.access_token),
-      navigate('/todo')
-    );
+    ).then((res) => {
+      localStorage.setItem('token', res.data.access_token);
+      navigate('/todo');
+    });
   }
 
   return (
