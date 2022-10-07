@@ -15,6 +15,7 @@ function Todo() {
   }, [todoData]);
 
   function checkedCompleted(e) {
+    //fix 수정 시 체크박스 반영이 안되고 있음
     if (e.currentTarget.checked) {
       setIsCompleted(true);
     } else {
@@ -86,6 +87,7 @@ function Todo() {
               <li key={todo.id}>
                 <input type="checkbox" onChange={checkedCompleted} />
                 <Input
+                  //fix 수정하려는 값이 안들어가있음
                   value={todo.todo}
                   onChange={(e) => setUpdateText(e.target.value)}
                 />
