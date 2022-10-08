@@ -8,7 +8,7 @@ function SignUp() {
   const [isEmail, setIsEmail] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const navigate = useNavigate();
-  //todo 회원가입 제목 필요
+
   useEffect(() => {
     if (userData?.email?.includes('@')) {
       setIsEmail(true);
@@ -24,9 +24,6 @@ function SignUp() {
   }, [userData]);
 
   function onChangeHandle(e) {
-    //todo 이메일 형식 안맞을 시 안내 메시지
-    //todo 패스워드 형식 안맞을 시 안내 메시지
-    //todo 형식 맞을 시 안내 메시지
     const { value, name } = e.target;
     setUserData({
       ...userData,
@@ -35,7 +32,6 @@ function SignUp() {
   }
   async function onSubmitHandle(e) {
     e.preventDefault();
-    //todo 회원가입 완료 안내메시지 띄우기
     await Axios.post(
       `https://pre-onboarding-selection-task.shop/auth/signup`,
       {
@@ -48,39 +44,39 @@ function SignUp() {
         },
       }
     );
+    alert('회원가입이 완료되었습니다!');
     navigate('/');
   }
   return (
-    <>
-      <Wrapper>
-        <LoginForm onSubmit={onSubmitHandle}>
-          <div className="email">
-            <H4 className="email">이메일</H4>
-            <Input
-              type="email"
-              name="email"
-              placeholder="이메일을 입력해주세요."
-              value={userData?.email || ''}
-              onChange={onChangeHandle}
-            />
-          </div>
-          <div className="password">
-            <H4 className="password">비밀번호</H4>
-            <Input
-              type="password"
-              name="password"
-              placeholder="비밀번호를 입력해주세요."
-              value={userData?.password || ''}
-              onChange={onChangeHandle}
-            />
-          </div>
-          <Button type="submit" disabled={!(isEmail && isPassword)}>
-            회원가입
-          </Button>
-        </LoginForm>
-        <StyledLink to="/">로그인</StyledLink>
-      </Wrapper>
-    </>
+    <Wrapper>
+      <h2>회원가입</h2>
+      <LoginForm onSubmit={onSubmitHandle}>
+        <div className="email">
+          <H4 className="email">이메일</H4>
+          <Input
+            type="email"
+            name="email"
+            placeholder="이메일을 입력해주세요."
+            value={userData?.email || ''}
+            onChange={onChangeHandle}
+          />
+        </div>
+        <div className="password">
+          <H4 className="password">비밀번호</H4>
+          <Input
+            type="password"
+            name="password"
+            placeholder="비밀번호를 입력해주세요."
+            value={userData?.password || ''}
+            onChange={onChangeHandle}
+          />
+        </div>
+        <Button type="submit" disabled={!(isEmail && isPassword)}>
+          회원가입
+        </Button>
+      </LoginForm>
+      <StyledLink to="/">로그인</StyledLink>
+    </Wrapper>
   );
 }
 
