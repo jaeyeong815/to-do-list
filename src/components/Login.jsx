@@ -10,12 +10,23 @@ function Login() {
   const [isPassword, setIsPassword] = useState(false);
   const navigate = useNavigate();
   //todo 로그인 제목 필요
-  //fix 비번 먼저 치고 이메일 입력하면 버튼 활성화가 느린것같음
   useEffect(() => {
     if (isLogin()) {
       navigate('/todo');
     } else {
       navigate('/');
+    }
+
+    if (loginData?.email?.includes('@')) {
+      setIsEmail(true);
+    } else {
+      setIsEmail(false);
+    }
+
+    if (loginData?.password?.length > 7) {
+      setIsPassword(true);
+    } else {
+      setIsPassword(false);
     }
   }, [loginData]);
 
@@ -28,18 +39,6 @@ function Login() {
       ...loginData,
       [name]: value,
     });
-
-    if (loginData?.email?.includes('@')) {
-      setIsEmail(true);
-    } else {
-      setIsEmail(false);
-    }
-
-    if (loginData?.password?.length > 6) {
-      setIsPassword(true);
-    } else {
-      setIsPassword(false);
-    }
   }
 
   async function onSubmitHandle(e) {

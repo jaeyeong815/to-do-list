@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Wrapper, LoginForm, H4, Input, Button, StyledLink } from './Style';
 import Axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +9,19 @@ function SignUp() {
   const [isPassword, setIsPassword] = useState(false);
   const navigate = useNavigate();
   //todo 회원가입 제목 필요
-  //fix 비번 먼저 치고 이메일 입력하면 버튼 활성화가 느린것같음
+  useEffect(() => {
+    if (userData?.email?.includes('@')) {
+      setIsEmail(true);
+    } else {
+      setIsEmail(false);
+    }
+
+    if (userData?.password?.length > 7) {
+      setIsPassword(true);
+    } else {
+      setIsPassword(false);
+    }
+  }, [userData]);
 
   function onChangeHandle(e) {
     //todo 이메일 형식 안맞을 시 안내 메시지
@@ -20,18 +32,6 @@ function SignUp() {
       ...userData,
       [name]: value,
     });
-
-    if (userData?.email?.includes('@')) {
-      setIsEmail(true);
-    } else {
-      setIsEmail(false);
-    }
-
-    if (userData?.password?.length > 6) {
-      setIsPassword(true);
-    } else {
-      setIsPassword(false);
-    }
   }
   async function onSubmitHandle(e) {
     e.preventDefault();
