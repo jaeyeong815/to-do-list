@@ -23,12 +23,7 @@ function Todo() {
   }, [todoData]);
 
   function checkedCompleted(e) {
-    //fix 수정 시 체크박스 반영이 안되고 있음
-    if (e.currentTarget.checked) {
-      setIsCompleted(true);
-    } else {
-      setIsCompleted(false);
-    }
+    setIsCompleted(e.currentTarget.checked);
   }
 
   async function getTodo() {
@@ -93,7 +88,11 @@ function Todo() {
       <ul>
         {isUpdate ? (
           <li key={updateId}>
-            <input type="checkbox" onChange={checkedCompleted} />
+            <input
+              type="checkbox"
+              checked={isCompleted}
+              onChange={checkedCompleted}
+            />
             <Input
               value={updateText}
               onChange={(e) => setUpdateText(e.target.value)}
@@ -113,14 +112,14 @@ function Todo() {
           todoData?.map((todo) => {
             return (
               <li key={todo.id}>
-                {isCompleted ? <H4>완료!</H4> : <H4>아직</H4>}
+                {todo.isCompleted ? <H4>완료!</H4> : <H4>아직</H4>}
                 {todo.todo}
                 <button
                   onClick={() => {
                     setIsUpdate(true);
                     setUpdateText(todo.todo);
+                    setIsCompleted(todo.isCompleted);
                     setUpdateId(todo.id);
-                    // updateHandle(todo.id);
                   }}
                 >
                   수정
