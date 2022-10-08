@@ -15,7 +15,7 @@ function Todo() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isLogin) {
+    if (isLogin()) {
       getTodo();
     } else {
       navigate('/');
@@ -135,9 +135,3 @@ function Todo() {
 }
 
 export default Todo;
-
-// 투두데이터 있으면 해야할일 목록이 나온다
-// 수정버튼을 누르면 isUpdate가 true로 변경된다
-// 수정창이 뜬다 -> 수정 할 인풋만 활성화
-// 수정창을 끄면 false가 된다
-// 수정을 누르면 handle함수가 실행된다
