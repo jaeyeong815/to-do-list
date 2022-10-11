@@ -25,6 +25,7 @@ export const LoginForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 10px;
 `;
 
 export const H4 = styled.h4`
