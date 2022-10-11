@@ -71,7 +71,6 @@ function Todo() {
     ).then((res) => setIsUpdate(false));
   }
 
-  //todo ul이 점으로 되어있는데 수정할 수 있으면 하기 (디자인)
   return (
     <Wrapper>
       <h1>투두 리스트</h1>
