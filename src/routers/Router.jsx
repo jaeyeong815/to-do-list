@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Login from '../components/Login';
-import SignUp from '../components/SignUp';
-import Todo from '../components/Todo';
+import Login from '../components/Auth/Login';
+import SignUp from '../components/Auth/SignUp';
+import Todo from '../components/Todo/Todo';
 
 function Router() {
   return (
