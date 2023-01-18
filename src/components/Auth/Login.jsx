@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Wrapper, LoginForm, H4, Input, Button, StyledLink } from './Style';
-import Axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { isLogin } from '../util/isLogin';
+import Axios from 'axios';
+import { isLogin } from '../../utils/isLogin';
+import { Wrapper, LoginForm, H4, Input, Button, StyledLink } from '../../styles/Style';
 
 function Login() {
   const [loginData, setLoginData] = useState({});
@@ -58,31 +58,31 @@ function Login() {
     <Wrapper>
       <h2>로그인</h2>
       <LoginForm onSubmit={onSubmitHandle}>
-        <div className="email">
-          <H4 className="email">이메일</H4>
+        <div className='email'>
+          <H4 className='email'>이메일</H4>
           <Input
-            type="email"
-            name="email"
-            placeholder="이메일을 입력해주세요."
+            type='email'
+            name='email'
+            placeholder='이메일을 입력해주세요.'
             value={loginData?.email}
             onChange={onChangeHandle}
           />
         </div>
-        <div className="password">
-          <H4 className="password">비밀번호</H4>
+        <div className='password'>
+          <H4 className='password'>비밀번호</H4>
           <Input
-            type="password"
-            name="password"
-            placeholder="비밀번호를 입력해주세요."
+            type='password'
+            name='password'
+            placeholder='비밀번호를 입력해주세요.'
             value={loginData?.password}
             onChange={onChangeHandle}
           />
         </div>
-        <Button type="submit" disabled={!(isEmail && isPassword)}>
+        <Button type='submit' disabled={!(isEmail && isPassword)}>
           로그인
         </Button>
       </LoginForm>
-      <StyledLink to="signup">회원가입</StyledLink>
+      <StyledLink to='signup'>회원가입</StyledLink>
     </Wrapper>
   );
 }

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Wrapper, TodoInput, Button, TodoBtn, Span, LiWrapper } from './Style';
-import Axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { isLogin } from '../util/isLogin';
+import Axios from 'axios';
+import { isLogin } from '../../utils/isLogin';
+import { Wrapper, TodoInput, Button, TodoBtn, Span, LiWrapper } from '../../styles/Style';
 
 function Todo() {
   const [todoData, setTodoData] = useState([]);
@@ -48,14 +48,11 @@ function Todo() {
   }
 
   async function deleteTodo(id) {
-    await Axios.delete(
-      `https://pre-onboarding-selection-task.shop/todos/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    await Axios.delete(`https://pre-onboarding-selection-task.shop/todos/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   }
 
   async function updateHandle() {
@@ -74,10 +71,10 @@ function Todo() {
   return (
     <Wrapper>
       <h1>투두 리스트</h1>
-      <div className="inputWrapper">
+      <div className='inputWrapper'>
         <TodoInput
-          name="todoText"
-          placeholder="할 일을 입력해주세요."
+          name='todoText'
+          placeholder='할 일을 입력해주세요.'
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
@@ -87,15 +84,12 @@ function Todo() {
         {isUpdate ? (
           <li key={updateId}>
             <input
-              type="checkbox"
-              id="checkbox"
+              type='checkbox'
+              id='checkbox'
               checked={isCompleted}
               onChange={checkedCompleted}
             />
-            <TodoInput
-              value={updateText}
-              onChange={(e) => setUpdateText(e.target.value)}
-            />
+            <TodoInput value={updateText} onChange={(e) => setUpdateText(e.target.value)} />
             <TodoBtn onClick={() => updateHandle()}>제출</TodoBtn>
             <TodoBtn
               onClick={() => {
