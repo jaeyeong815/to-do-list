@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
-import { isLogin } from '../../util/isLogin';
+import { isLogin } from '../../utils/isLogin';
 import { Wrapper, TodoInput, Button, TodoBtn, Span, LiWrapper } from '../../styles/Style';
 
 function Todo() {
