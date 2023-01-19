@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
+import token from '../../utils/token';
 import { Wrapper, LoginForm, H4, Input, Button, StyledLink } from '../../styles/Style';
 
 function SignUp() {
@@ -31,9 +32,11 @@ function SignUp() {
           'Content-Type': 'application/json',
         },
       }
-    );
-    alert('회원가입이 완료되었습니다!');
-    navigate('/');
+    ).then((res) => {
+      token.setToken(res.data.access_token);
+      alert('회원가입이 완료되었습니다!');
+      navigate('/todo');
+    });
   }
   return (
     <Wrapper>
