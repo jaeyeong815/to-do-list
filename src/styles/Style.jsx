@@ -10,7 +10,7 @@ export const Wrapper = styled.section`
   margin: 0 auto;
 `;
 
-export const LiWrapper = styled.li`
+export const LiWrapper = styled.ul`
   margin-bottom: 10px;
 
   & {

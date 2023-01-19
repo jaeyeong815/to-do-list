@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
-import { isLogin } from '../../utils/isLogin';
+import token from '../../utils/token';
 import { Wrapper, LoginForm, H4, Input, Button, StyledLink } from '../../styles/Style';
 
 function Login() {
@@ -11,14 +11,6 @@ function Login() {
   const emailIsValid = (email) => email?.includes('@');
   const passwordIsValid = (password) => password?.length > 7;
   const formIsValid = emailIsValid(loginData.email) && passwordIsValid(loginData.password);
-
-  useEffect(() => {
-    if (isLogin()) {
-      navigate('/todo');
-    } else {
-      navigate('/');
-    }
-  }, [navigate]);
 
   function onChangeHandle(e) {
     const { value, name } = e.target;
@@ -40,7 +32,7 @@ function Login() {
         },
       }
     ).then((res) => {
-      localStorage.setItem('token', res.data.access_token);
+      token.setToken(res.data.access_token);
       navigate('/todo');
     });
   }

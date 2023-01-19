@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
-import { isLogin } from '../../utils/isLogin';
+import token from '../../utils/token';
 import { Wrapper, TodoInput, Button, TodoBtn, Span, LiWrapper } from '../../styles/Style';
 
 function Todo() {
@@ -11,15 +10,10 @@ function Todo() {
   const [updateId, setUpdateId] = useState('');
   const [updateText, setUpdateText] = useState(text);
   const [isCompleted, setIsCompleted] = useState(false);
-  const token = localStorage.getItem('token');
-  const navigate = useNavigate();
+  const userToken = token.getToken();
 
   useEffect(() => {
-    if (isLogin()) {
-      getTodo();
-    } else {
-      navigate('/');
-    }
+    getTodo();
   }, [todoData]);
 
   function checkedCompleted(e) {
@@ -29,7 +23,7 @@ function Todo() {
   async function getTodo() {
     await Axios.get(`https://pre-onboarding-selection-task.shop/todos`, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${userToken}`,
       },
     }).then((res) => setTodoData(res.data));
   }
@@ -40,7 +34,7 @@ function Todo() {
       { todo: text },
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${userToken}`,
           'Content-Type': 'application/json',
         },
       }
@@ -50,7 +44,7 @@ function Todo() {
   async function deleteTodo(id) {
     await Axios.delete(`https://pre-onboarding-selection-task.shop/todos/${id}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${userToken}`,
       },
     });
   }
@@ -61,7 +55,7 @@ function Todo() {
       { todo: updateText, isCompleted },
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${userToken}`,
           'Content-Type': 'application/json',
         },
       }
@@ -102,9 +96,9 @@ function Todo() {
             </TodoBtn>
           </li>
         ) : (
-          todoData?.map((todo) => {
-            return (
-              <LiWrapper>
+          <LiWrapper>
+            {todoData?.map((todo) => {
+              return (
                 <li key={todo.id}>
                   {todo.isCompleted ? (
                     <Span state={'completed'}>완료!</Span>
@@ -127,9 +121,9 @@ function Todo() {
                     삭제
                   </TodoBtn>
                 </li>
-              </LiWrapper>
-            );
-          })
+              );
+            })}
+          </LiWrapper>
         )}
       </ul>
     </Wrapper>
