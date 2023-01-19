@@ -1,27 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 import { Wrapper, LoginForm, H4, Input, Button, StyledLink } from '../../styles/Style';
 
 function SignUp() {
-  const [userData, setUserData] = useState({});
-  const [isEmail, setIsEmail] = useState(false);
-  const [isPassword, setIsPassword] = useState(false);
   const navigate = useNavigate();
+  const [userData, setUserData] = useState({});
 
-  useEffect(() => {
-    if (userData?.email?.includes('@')) {
-      setIsEmail(true);
-    } else {
-      setIsEmail(false);
-    }
-
-    if (userData?.password?.length > 7) {
-      setIsPassword(true);
-    } else {
-      setIsPassword(false);
-    }
-  }, [userData]);
+  const emailIsValid = (email) => email?.includes('@');
+  const passwordIsValid = (password) => password?.length > 7;
+  const formIsValid = emailIsValid(userData.email) && passwordIsValid(userData.password);
 
   function onChangeHandle(e) {
     const { value, name } = e.target;
@@ -71,7 +59,7 @@ function SignUp() {
             onChange={onChangeHandle}
           />
         </div>
-        <Button type='submit' disabled={!(isEmail && isPassword)}>
+        <Button type='submit' disabled={!formIsValid}>
           회원가입
         </Button>
       </LoginForm>
