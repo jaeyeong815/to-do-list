@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
-import { isLogin } from '../../utils/isLogin';
 import { Wrapper, TodoInput, Button, TodoBtn, Span, LiWrapper } from '../../styles/Style';
 
 function Todo() {
@@ -12,14 +10,9 @@ function Todo() {
   const [updateText, setUpdateText] = useState(text);
   const [isCompleted, setIsCompleted] = useState(false);
   const token = localStorage.getItem('token');
-  const navigate = useNavigate();
 
   useEffect(() => {
-    if (isLogin()) {
-      getTodo();
-    } else {
-      navigate('/');
-    }
+    getTodo();
   }, [todoData]);
 
   function checkedCompleted(e) {
@@ -102,9 +95,9 @@ function Todo() {
             </TodoBtn>
           </li>
         ) : (
-          todoData?.map((todo) => {
-            return (
-              <LiWrapper>
+          <LiWrapper>
+            {todoData?.map((todo) => {
+              return (
                 <li key={todo.id}>
                   {todo.isCompleted ? (
                     <Span state={'completed'}>완료!</Span>
@@ -127,9 +120,9 @@ function Todo() {
                     삭제
                   </TodoBtn>
                 </li>
-              </LiWrapper>
-            );
-          })
+              );
+            })}
+          </LiWrapper>
         )}
       </ul>
     </Wrapper>
