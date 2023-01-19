@@ -5,10 +5,12 @@ import { isLogin } from '../../utils/isLogin';
 import { Wrapper, LoginForm, H4, Input, Button, StyledLink } from '../../styles/Style';
 
 function Login() {
-  const [loginData, setLoginData] = useState({});
-  const [isEmail, setIsEmail] = useState(false);
-  const [isPassword, setIsPassword] = useState(false);
   const navigate = useNavigate();
+  const [loginData, setLoginData] = useState({});
+
+  const emailIsValid = (email) => email?.includes('@');
+  const passwordIsValid = (password) => password?.length > 7;
+  const formIsValid = emailIsValid(loginData.email) && passwordIsValid(loginData.password);
 
   useEffect(() => {
     if (isLogin()) {
@@ -16,18 +18,7 @@ function Login() {
     } else {
       navigate('/');
     }
-    if (loginData?.email?.includes('@')) {
-      setIsEmail(true);
-    } else {
-      setIsEmail(false);
-    }
-
-    if (loginData?.password?.length > 7) {
-      setIsPassword(true);
-    } else {
-      setIsPassword(false);
-    }
-  }, [loginData]);
+  }, [navigate]);
 
   function onChangeHandle(e) {
     const { value, name } = e.target;
@@ -64,7 +55,7 @@ function Login() {
             type='email'
             name='email'
             placeholder='이메일을 입력해주세요.'
-            value={loginData?.email}
+            value={loginData?.email || ''}
             onChange={onChangeHandle}
           />
         </div>
@@ -74,11 +65,11 @@ function Login() {
             type='password'
             name='password'
             placeholder='비밀번호를 입력해주세요.'
-            value={loginData?.password}
+            value={loginData?.password || ''}
             onChange={onChangeHandle}
           />
         </div>
-        <Button type='submit' disabled={!(isEmail && isPassword)}>
+        <Button type='submit' disabled={!formIsValid}>
           로그인
         </Button>
       </LoginForm>
