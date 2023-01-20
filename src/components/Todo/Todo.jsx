@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Axios from 'axios';
-import token from '../../utils/token';
+import todoApi from '../../apis/todo';
 import { Wrapper, TodoInput, Button, TodoBtn, Span, LiWrapper } from '../../styles/Style';
 
 function Todo() {
@@ -10,56 +9,34 @@ function Todo() {
   const [updateId, setUpdateId] = useState('');
   const [updateText, setUpdateText] = useState(text);
   const [isCompleted, setIsCompleted] = useState(false);
-  const userToken = token.getToken();
 
   useEffect(() => {
     getTodo();
-  }, [todoData]);
+  }, []);
 
   function checkedCompleted(e) {
     setIsCompleted(e.currentTarget.checked);
   }
 
   async function getTodo() {
-    await Axios.get(`https://pre-onboarding-selection-task.shop/todos`, {
-      headers: {
-        Authorization: `Bearer ${userToken}`,
-      },
-    }).then((res) => setTodoData(res.data));
+    const todos = await todoApi.getTodos();
+    setTodoData(todos);
   }
 
   async function createTodo() {
-    await Axios.post(
-      `https://pre-onboarding-selection-task.shop/todos`,
-      { todo: text },
-      {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    ).then((res) => setTodoData([...todoData, res.data], setText('')));
+    const todo = await todoApi.createTodo({ todo: text });
+    setTodoData([...todoData, todo]);
+    setText('');
   }
 
   async function deleteTodo(id) {
-    await Axios.delete(`https://pre-onboarding-selection-task.shop/todos/${id}`, {
-      headers: {
-        Authorization: `Bearer ${userToken}`,
-      },
-    });
+    await todoApi.deleteTodo(id);
   }
 
   async function updateHandle() {
-    await Axios.put(
-      `https://pre-onboarding-selection-task.shop/todos/${updateId}`,
-      { todo: updateText, isCompleted },
-      {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    ).then((res) => setIsUpdate(false));
+    await todoApi.updateTodo(updateId, { todo: updateText, isCompleted });
+    setIsUpdate(false);
+    getTodo();
   }
 
   return (
