@@ -27,6 +27,7 @@ function Todo() {
     const todo = await todoApi.createTodo({ todo: text });
     setTodoData(todoData.concat(todo));
     setText('');
+    getTodo();
   }
 
   async function deleteTodo(id) {
