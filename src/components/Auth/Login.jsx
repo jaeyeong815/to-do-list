@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Axios from 'axios';
-import token from '../../utils/token';
+import authApi from '../../apis/auth';
 import { Wrapper, LoginForm, H4, Input, Button, StyledLink } from '../../styles/Style';
 
 function Login() {
@@ -23,18 +22,8 @@ function Login() {
   async function onSubmitHandle(e) {
     e.preventDefault();
 
-    await Axios.post(
-      `https://pre-onboarding-selection-task.shop/auth/signin`,
-      { email: loginData.email, password: loginData.password },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    ).then((res) => {
-      token.setToken(res.data.access_token);
-      navigate('/todo');
-    });
+    await authApi.login({ email: loginData.email, password: loginData.password });
+    navigate('/todo');
   }
 
   return (
