@@ -25,7 +25,7 @@ function Todo() {
 
   async function createTodo() {
     const todo = await todoApi.createTodo({ todo: text });
-    setTodoData([...todoData, todo]);
+    setTodoData(todoData.concat(todo));
     setText('');
   }
 
