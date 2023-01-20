@@ -31,6 +31,7 @@ function Todo() {
 
   async function deleteTodo(id) {
     await todoApi.deleteTodo(id);
+    getTodo();
   }
 
   async function updateHandle() {
