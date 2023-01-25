@@ -24,21 +24,32 @@ function Todo() {
   }
 
   async function createTodo() {
+    if (text.trim().length === 0) {
+      alert('할 일을 작성해주세요.');
+      return;
+    }
     const todo = await todoApi.createTodo({ todo: text });
     setTodoData(todoData.concat(todo));
+    alert('할 일이 등록되었어요!');
     setText('');
     getTodo();
   }
 
   async function deleteTodo(id) {
-    await todoApi.deleteTodo(id);
-    getTodo();
+    const confirm = window.confirm('정말 삭제하시겠습니까?');
+    if (confirm) {
+      await todoApi.deleteTodo(id);
+      getTodo();
+    }
   }
 
   async function updateHandle() {
-    await todoApi.updateTodo(updateId, { todo: updateText, isCompleted });
-    setIsUpdate(false);
-    getTodo();
+    const confirm = window.confirm('할 일을 수정하시겠습니까?');
+    if (confirm) {
+      await todoApi.updateTodo(updateId, { todo: updateText, isCompleted });
+      setIsUpdate(false);
+      getTodo();
+    }
   }
 
   return (
