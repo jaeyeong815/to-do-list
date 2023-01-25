@@ -10,12 +10,26 @@ export const Wrapper = styled.section`
   margin: 0 auto;
 `;
 
-export const LiWrapper = styled.ul`
-  margin-bottom: 10px;
+export const Ul = styled.ul`
+  padding: 0;
+  margin-top: 50px;
+`;
 
-  & {
-    text-align: center;
-    list-style: none;
+export const Li = styled.li`
+  margin-bottom: 20px;
+  list-style: none;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .isCompleted {
+    margin: 0 auto;
+  }
+
+  .todo {
+    border-bottom: 1px solid gray;
+    width: 200px;
   }
 `;
 
@@ -38,6 +52,7 @@ function getBackColor(state) {
     case 'not':
       return '#CD5C5C';
     case 'edit':
+    case 'submit':
       return '#F5F5F5';
     case 'del':
       return '#FA8072';
@@ -66,9 +81,11 @@ export const TodoInput = styled.input`
   border: none;
   border-bottom: solid;
 
-  margin-bottom: 10px;
   width: 200px;
   height: 25px;
+
+  font-size: 18px;
+  outline: none;
 `;
 
 export const Button = styled.button`
@@ -82,12 +99,19 @@ export const Button = styled.button`
   cursor: pointer;
 `;
 
+export const TodoCheck = styled.input`
+  width: 25px;
+  height: 25px;
+  margin: 0;
+  margin-right: 10px;
+`;
+
 export const TodoBtn = styled.button`
   background-color: ${(props) => getBackColor(props.state)};
   color: ${(props) => (props.state === 'del' ? '#fff' : '#000')};
 
   padding: 5px 10px;
-  margin-left: 5px;
+  margin-left: 10px;
 
   border: none;
   border-radius: 5px;

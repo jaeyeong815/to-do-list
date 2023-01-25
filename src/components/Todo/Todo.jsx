@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import todoApi from '../../apis/todo';
-import { Wrapper, TodoInput, Button, TodoBtn, Span, LiWrapper } from '../../styles/Style';
+import { Wrapper, TodoInput, TodoCheck, Button, TodoBtn, Span, Li, Ul } from '../../styles/Style';
 
 function Todo() {
   const [todoData, setTodoData] = useState([]);
@@ -64,18 +64,21 @@ function Todo() {
         />
         <Button onClick={createTodo}>추가</Button>
       </div>
-      <ul style={{ padding: '0px' }}>
+      <Ul>
         {isUpdate ? (
-          <li key={updateId}>
-            <input
+          <Li key={updateId}>
+            <TodoCheck
               type='checkbox'
               id='checkbox'
               checked={isCompleted}
               onChange={checkedCompleted}
             />
             <TodoInput value={updateText} onChange={(e) => setUpdateText(e.target.value)} />
-            <TodoBtn onClick={() => updateHandle()}>제출</TodoBtn>
+            <TodoBtn state={'submit'} onClick={() => updateHandle()}>
+              제출
+            </TodoBtn>
             <TodoBtn
+              state={'del'}
               onClick={() => {
                 setIsUpdate(false);
                 setText('');
@@ -84,38 +87,46 @@ function Todo() {
             >
               취소
             </TodoBtn>
-          </li>
+          </Li>
         ) : (
-          <LiWrapper>
+          <>
             {todoData?.map((todo) => {
               return (
-                <li key={todo.id}>
-                  {todo.isCompleted ? (
-                    <Span state={'completed'}>완료!</Span>
-                  ) : (
-                    <Span state={'not'}>미완료</Span>
-                  )}
-                  {todo.todo}
-                  <TodoBtn
-                    state={'edit'}
-                    onClick={() => {
-                      setIsUpdate(true);
-                      setUpdateText(todo.todo);
-                      setIsCompleted(todo.isCompleted);
-                      setUpdateId(todo.id);
-                    }}
-                  >
-                    수정
-                  </TodoBtn>
-                  <TodoBtn state={'del'} onClick={() => deleteTodo(todo.id)}>
-                    삭제
-                  </TodoBtn>
-                </li>
+                <Li key={todo.id}>
+                  <div className='isCompleted'>
+                    {todo.isCompleted ? (
+                      <Span state={'completed'}>완료!</Span>
+                    ) : (
+                      <Span state={'not'}>미완료</Span>
+                    )}
+                  </div>
+                  <div className='todo'>{todo.todo}</div>
+                  <div className='positiveBtn'>
+                    <TodoBtn
+                      state={'edit'}
+                      onClick={() => {
+                        setIsUpdate(true);
+                        setUpdateText(todo.todo);
+                        setIsCompleted(todo.isCompleted);
+                        setUpdateId(todo.id);
+                      }}
+                    >
+                      수정
+                    </TodoBtn>
+                    <TodoBtn
+                      className='negativeBtn'
+                      state={'del'}
+                      onClick={() => deleteTodo(todo.id)}
+                    >
+                      삭제
+                    </TodoBtn>
+                  </div>
+                </Li>
               );
             })}
-          </LiWrapper>
+          </>
         )}
-      </ul>
+      </Ul>
     </Wrapper>
   );
 }
