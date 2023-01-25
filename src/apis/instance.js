@@ -17,4 +17,17 @@ export const todoInstance = axios.create({
   },
 });
 
-authInstance.interceptors.response.use((res) => token.setToken(res.data.access_token));
+authInstance.interceptors.response.use(
+  (res) => token.setToken(res.data.access_token),
+  (err) => {
+    let errorMessage;
+    switch (err.response.data.message) {
+      case 'Unauthorized':
+        errorMessage = '비밀번호를 확인해주세요!';
+        break;
+      default:
+        errorMessage = err.response.data.message;
+    }
+    return Promise.reject(errorMessage);
+  }
+);
