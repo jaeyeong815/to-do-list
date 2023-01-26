@@ -1,54 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import EditTodo from './EditTodo';
 import todoApi from '../../apis/todo';
-import { Wrapper, TodoInput, TodoCheck, Button, TodoBtn, Span, Li, Ul } from '../../styles/Style';
+import { TodoContext } from '../../context/TodoContext';
+import { Wrapper, TodoInput, Button, TodoBtn, Span, Li, Ul } from '../../styles/Style';
 
 function Todo() {
-  const [todoData, setTodoData] = useState([]);
+  const todoCtx = useContext(TodoContext);
   const [text, setText] = useState('');
-  const [isUpdate, setIsUpdate] = useState(false);
-  const [updateId, setUpdateId] = useState('');
-  const [updateText, setUpdateText] = useState(text);
-  const [isCompleted, setIsCompleted] = useState(false);
 
   useEffect(() => {
-    getTodo();
+    todoCtx.getTodos();
   }, []);
-
-  function checkedCompleted(e) {
-    setIsCompleted(e.currentTarget.checked);
-  }
-
-  async function getTodo() {
-    const todos = await todoApi.getTodos();
-    setTodoData(todos);
-  }
 
   async function createTodo() {
     if (text.trim().length === 0) {
       alert('할 일을 작성해주세요.');
       return;
     }
-    const todo = await todoApi.createTodo({ todo: text });
-    setTodoData(todoData.concat(todo));
+    await todoApi.createTodo({ todo: text });
+    todoCtx.getTodos();
     alert('할 일이 등록되었어요!');
     setText('');
-    getTodo();
   }
 
   async function deleteTodo(id) {
     const confirm = window.confirm('정말 삭제하시겠습니까?');
     if (confirm) {
       await todoApi.deleteTodo(id);
-      getTodo();
-    }
-  }
-
-  async function updateHandle() {
-    const confirm = window.confirm('할 일을 수정하시겠습니까?');
-    if (confirm) {
-      await todoApi.updateTodo(updateId, { todo: updateText, isCompleted });
-      setIsUpdate(false);
-      getTodo();
+      todoCtx.getTodos();
     }
   }
 
@@ -65,32 +44,11 @@ function Todo() {
         <Button onClick={createTodo}>추가</Button>
       </div>
       <Ul>
-        {isUpdate ? (
-          <Li key={updateId}>
-            <TodoCheck
-              type='checkbox'
-              id='checkbox'
-              checked={isCompleted}
-              onChange={checkedCompleted}
-            />
-            <TodoInput value={updateText} onChange={(e) => setUpdateText(e.target.value)} />
-            <TodoBtn state={'submit'} onClick={() => updateHandle()}>
-              제출
-            </TodoBtn>
-            <TodoBtn
-              state={'del'}
-              onClick={() => {
-                setIsUpdate(false);
-                setText('');
-                setIsCompleted(false);
-              }}
-            >
-              취소
-            </TodoBtn>
-          </Li>
+        {todoCtx.isUpdating ? (
+          <EditTodo />
         ) : (
           <>
-            {todoData?.map((todo) => {
+            {todoCtx.todos?.map((todo) => {
               return (
                 <Li key={todo.id}>
                   <div className='isCompleted'>
@@ -105,10 +63,7 @@ function Todo() {
                     <TodoBtn
                       state={'edit'}
                       onClick={() => {
-                        setIsUpdate(true);
-                        setUpdateText(todo.todo);
-                        setIsCompleted(todo.isCompleted);
-                        setUpdateId(todo.id);
+                        todoCtx.updateModeHandle(todo.id, todo.todo, todo.isCompleted);
                       }}
                     >
                       수정
