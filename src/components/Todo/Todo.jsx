@@ -1,27 +1,16 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
+import AddTodo from './AddTodo';
 import EditTodo from './EditTodo';
 import todoApi from '../../apis/todo';
 import { TodoContext } from '../../context/TodoContext';
-import { Wrapper, TodoInput, Button, TodoBtn, Span, Li, Ul } from '../../styles/Style';
+import { Wrapper, TodoBtn, Span, Li, Ul } from '../../styles/Style';
 
 function Todo() {
   const todoCtx = useContext(TodoContext);
-  const [text, setText] = useState('');
 
   useEffect(() => {
     todoCtx.getTodos();
   }, []);
-
-  async function createTodo() {
-    if (text.trim().length === 0) {
-      alert('할 일을 작성해주세요.');
-      return;
-    }
-    await todoApi.createTodo({ todo: text });
-    todoCtx.getTodos();
-    alert('할 일이 등록되었어요!');
-    setText('');
-  }
 
   async function deleteTodo(id) {
     const confirm = window.confirm('정말 삭제하시겠습니까?');
@@ -34,15 +23,7 @@ function Todo() {
   return (
     <Wrapper>
       <h1>투두 리스트</h1>
-      <div className='inputWrapper'>
-        <TodoInput
-          name='todoText'
-          placeholder='할 일을 입력해주세요.'
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-        />
-        <Button onClick={createTodo}>추가</Button>
-      </div>
+      <AddTodo />
       <Ul>
         {todoCtx.isUpdating ? (
           <EditTodo />
