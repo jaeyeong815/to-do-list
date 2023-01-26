@@ -1,8 +1,6 @@
 import axios from 'axios';
 import token from '../utils/token';
 
-const userToken = token.getToken();
-
 export const authInstance = axios.create({
   baseURL: `https://pre-onboarding-selection-task.shop/auth/`,
   headers: {
@@ -12,9 +10,6 @@ export const authInstance = axios.create({
 
 export const todoInstance = axios.create({
   baseURL: `https://pre-onboarding-selection-task.shop/todos`,
-  headers: {
-    Authorization: `Bearer ${userToken}`,
-  },
 });
 
 authInstance.interceptors.response.use(
@@ -31,3 +26,14 @@ authInstance.interceptors.response.use(
     return Promise.reject(errorMessage);
   }
 );
+
+todoInstance.interceptors.request.use((config) => {
+  if (!config.headers) {
+    return config;
+  }
+
+  const bearerToken = `Bearer ${token.getToken()}`;
+  config.headers.Authorization ??= bearerToken;
+
+  return config;
+});
