@@ -22,8 +22,15 @@ function Login() {
   async function onSubmitHandle(e) {
     e.preventDefault();
 
-    await authApi.login({ email: loginData.email, password: loginData.password });
-    navigate('/todo');
+    await authApi
+      .login({ email: loginData.email, password: loginData.password })
+      .then(() => {
+        alert('로그인이 완료되었습니다!');
+        navigate('/todo');
+      })
+      .catch((err) => {
+        alert(err);
+      });
   }
 
   return (

@@ -21,9 +21,15 @@ function SignUp() {
   async function onSubmitHandle(e) {
     e.preventDefault();
 
-    await authApi.signup({ email: userData.email, password: userData.password });
-    alert('회원가입이 완료되었습니다!');
-    navigate('/todo');
+    await authApi
+      .signup({ email: userData.email, password: userData.password })
+      .then(() => {
+        alert('회원가입이 완료되었습니다!');
+        navigate('/todo');
+      })
+      .catch((err) => {
+        alert(err);
+      });
   }
   return (
     <Wrapper>
