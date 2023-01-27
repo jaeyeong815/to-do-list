@@ -6,7 +6,8 @@
 [1. 🗒️ 프로젝트 설명](#description) <br>
 [2. 🌎 프로젝트 소개](#about-project) <br>
 [3. ✍🏻 프로젝트 개선 과정](#개선-및-결과) <br>
-[4. 🖥️ 구현 화면](#results)
+[4. 🔫 트러블 슈팅](#trouble-shooting) <br>
+[5. 🖥️ 구현 화면](#results)
 
 ## Description
 
@@ -84,7 +85,7 @@ pw : 12345678
 
 ## 개선 및 결과
 
-[개선사항 관련 이슈로 이동하기]()
+[개선사항 관련 이슈로 이동하기](https://github.com/jaeyeong815/wanted-pre-onboarding-fe-7/issues/1)
 
 **1. 파일 구조 변경** https://github.com/jaeyeong815/wanted-pre-onboarding-fe-7/pull/2 <br>
 
@@ -112,6 +113,41 @@ pw : 12345678
   새로 받아온 데이터를 기존 데이터에 합치는 과정을 구현하던 중,<br>
   기존 `스프레드 문법`을 사용하여 구현되어 있던 부분을 `concat` 메서드로 변경해도 되겠다는 생각이 들었습니다.<br>
   왜 변경해야 하는지 근거를 설명하기 위해 `performance 측정`을 하였고, 납득할만한 결과가 확인되어 로직을 수정하였습니다.
+  
+**5. 컴포넌트 관심사 분리** https://github.com/jaeyeong815/wanted-pre-onboarding-fe-7/pull/8 <br>
+ 
+ `Todo.jsx`에 할 일 등록, 수정, 삭제 기능이 모두 구현되어 있었기 때문에<br>
+ 하나의 기능을 수정하기 위해서 `100줄`이 넘는 파일에 관련 코드가 어디있는지 찾기가 어려웠습니다.<br>
+ 관심사 분리가 되어있지 않으면 `유지보수하기가 어렵다는 것을 체감`하였고, 지금은 나 혼자 진행하는 프로젝트지만 <br>
+ 여러 동료들과 함께 진행하는 프로젝트라고 생각하면 어지러운 상황임을 깨달았습니다. <br>
+ 그래서 **하나의 컴포넌트는 하나의 역할만 할 수 있도록 분리하여 개선**하였습니다.
+ 
+## Trouble-Shooting
+
+**로그인 후 Todo 페이지로 접속했을 때 새로고침 해야 데이터가 불러와지는 오류**
+
+[관련 PR](https://github.com/jaeyeong815/wanted-pre-onboarding-fe-7/pull/8)
+
+**상황**<br>
+
+로그인 후 `todo 페이지`로 이동이 되는데, `AxiosError`가 발생하면서 `todo 리스트`가 불러와지지 않았고,<br>
+새로고침을 해야 정상적으로 불러와지는 오류가 발생했습니다.<br>
+
+**원인 파악**<br>
+
+확인해보니 스토리지에는 정상적으로 `token`이 저장되지만<br>
+`Todo` 페이지에 처음 접속할 땐 `token이 null`로 불러와지는 상황이었습니다. <br>
+
+`todo 리스트`를 받기 위해선 헤더에 사용자의 `token`을 보내야 해서 `axios` 로직을 작성할 때 스토리지에서 `token`을 가져오는 부분도 작성 했지만, <br>
+로그인 후 다시 `token`을 가져오는 것이 아니라 로그인 전 `null 상태의 token`을 가져오고<br>
+**이후 업데이트를 하지 않은 채로 `todo 리스트`를 요청하는 것이 원인**이라고 생각 되었습니다. <br>
+
+**해결 방안**<br>
+
+`interceptor.request`를 사용하여 서버에 `todo 리스트` 요청을 하기 전 헤더에 `token이 null`이라면 <br>
+다시 스토리지에서 `token`을 가져와 저장하는 로직을 추가 구현하였습니다.
+
+https://github.com/jaeyeong815/wanted-pre-onboarding-fe-7/blob/80e143dedb5b5f69a13cd9b7a0b6a729f14a737b/src/apis/instance.js#L30-L39
 
 ## Results
 
