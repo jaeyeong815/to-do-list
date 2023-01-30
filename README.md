@@ -151,19 +151,21 @@ https://github.com/jaeyeong815/wanted-pre-onboarding-fe-7/blob/80e143dedb5b5f69a
 
 ## Results
 
-### 회원가입 / 로그인
+### 회원가입 / 로그인 / 로그아웃
 ![회원가입](https://user-images.githubusercontent.com/85178602/213903273-999d62b7-c24e-4e7b-8117-9c1cd8ac8a48.gif)
 
 ![로그인](https://user-images.githubusercontent.com/85178602/213903271-a153ef15-2e29-4de9-b52f-ecb7ead3d906.gif)
 
+![로그아웃](https://user-images.githubusercontent.com/85178602/215410957-25d10dc2-d9e4-45cd-bab0-7eaf0ad243b9.gif)
+
 ### 할일 등록
 
-![등록](https://user-images.githubusercontent.com/85178602/213903280-e1ca57e3-e0b1-47ce-93ee-7871f6f8bcac.gif)
+![등록](https://user-images.githubusercontent.com/85178602/215410985-7ee6328e-0068-48e5-931e-8bfa81fa5714.gif)
 
 ### 할일 수정
 
-![수정](https://user-images.githubusercontent.com/85178602/213903292-12d00c09-4494-4981-9ed5-913f867d3d2a.gif)
+![수정](https://user-images.githubusercontent.com/85178602/215410967-067457c9-06f8-427d-97dc-1d5951bef4dc.gif)
 
 ### 할일 삭제
 
-![삭제](https://user-images.githubusercontent.com/85178602/213903299-33a0229a-20de-4cce-a6f2-f7ec9c8d5be4.gif)
+![삭제](https://user-images.githubusercontent.com/85178602/215410982-8a955ec9-6187-47ca-9f75-c9015f65384c.gif)
